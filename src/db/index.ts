@@ -6,9 +6,9 @@ const knex =  knexDB({
         client: 'mysql2',
         connection: {
             host: 'localhost',
-            user: 'root',
-            password: 'P3rf3ct0u$',
-            database: 'test',
+            user: '',
+            password: '',
+            database: 'signal',
             port: 3306
         }
       });
