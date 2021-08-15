@@ -1,17 +1,16 @@
-import knex from 'knex';
+import knexDB from 'knex';
 
 
-export async function connect() {
 
-    return knex({
+const knex =  knexDB({
         client: 'mysql2',
         connection: {
             host: 'localhost',
             user: 'root',
-            password: '',
-            database: 'signal',
+            password: 'P3rf3ct0u$',
+            database: 'test',
             port: 3306
         }
       });
 
-}
+export default knex

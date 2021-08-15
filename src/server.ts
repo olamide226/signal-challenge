@@ -1,21 +1,24 @@
 import express, { Application, Request, Response } from 'express';
 import cors from "cors";
 import HttpException from './utils/HttpException.utils';
-import {errorMiddleware} from './middlewares/error.middleware';
-// import morgan from 'morgan';
+import { errorMiddleware } from './middlewares/error.middleware';
+import morgan from 'morgan';
 
 // Routes
-import indexRoute from './routes/index.routes';
+import defaultRoute from './routes/index.route';
 
 export class App {
 
     private app: Application;
+    port: number;
 
-    constructor(private port: number = 3000 ) {
+    constructor() {
+        this.port = 3000;
         this.app = express();
         this.settings();
         this.middlewares();
         this.routes();
+        this.errorHandler();
     }
 
     settings() {
@@ -23,25 +26,27 @@ export class App {
     }
 
     middlewares() {
-        // this.app.use(morgan('dev'));
+        this.app.use(morgan('dev'));
         this.app.use(express.json());
         this.app.use(cors());
-        // Error middleware
-        this.app.use(errorMiddleware);
-        // // 404 error
-        this.app.all('*', (req : Request, res : Response, next) => {
+    }
+
+    routes() {
+        this.app.use('/', defaultRoute);
+        this.app.all('*', (req: Request, res: Response, next: Function) => {
             const err = new HttpException(404, 'Endpoint Not Found');
             next(err);
         });
     }
 
-    routes() {
-        this.app.use('/', indexRoute);
+    errorHandler() {
+        // Error middleware
+        this.app.use(errorMiddleware);
     }
 
-    async listen() {
-        await this.app.listen( this.app.get('port'));
-        console.log( `🚀 Server running on port ${ this.app.get('port') }!` );
+    listen() {
+        this.app.listen(this.app.get('port'));
+        console.log(`🚀 Server running on port ${this.app.get('port')}!`);
     }
-    
+
 }
