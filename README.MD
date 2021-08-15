@@ -6,7 +6,7 @@
 # How to run 
 ```
 $ #import setup.sql into mysql database
-$ mysql -u username -p password db_name < /path/to/post.sql
+$ mysql -u username -p password db_name < /path/to/setup.sql
 $ git clone https://github.com/olamide226/signal-challenge
 $ cd signal-challenge
 $ npm install
